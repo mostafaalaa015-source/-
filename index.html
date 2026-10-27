@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>فاتورة بيع - la tree beaute</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef0e9;--paper:#fffefb;--ink:#1d2b24;--mute:#6b776f;--leaf:#2f6b4f;--leaf-ink:#fff;--line:#dcd8cb;--field:#fff6df;--field-line:#e3c77d;--sum:#e6efe8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101512;--paper:#18211c;--ink:#e8eee9;--mute:#9aa89f;--leaf:#6fc29a;--leaf-ink:#0e1a14;--line:#2c3a32;--field:#2b2614;--field-line:#6b5a22;--sum:#1f2f26;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101512;--paper:#18211c;--ink:#e8eee9;--mute:#9aa89f;--leaf:#6fc29a;--leaf-ink:#0e1a14;--line:#2c3a32;--field:#2b2614;--field-line:#6b5a22;--sum:#1f2f26;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,Arial,sans-serif;font-size:16px;line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding:14px 12px 120px}
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px}
+h1{margin:0 0 2px;font-size:24px}
+.sub{color:var(--mute);font-size:14px;margin:0 0 14px}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.meta .full{grid-column:1/-1}
+label{display:block;font-size:13px;color:var(--mute);margin-bottom:2px}
+input{font:inherit;color:var(--ink);background:var(--field);border:1px solid var(--field-line);border-radius:5px;padding:7px 9px;width:100%;min-width:0}
+input:focus-visible,button:focus-visible{outline:2px solid var(--leaf);outline-offset:1px}
+.list{border-top:2px solid var(--leaf)}
+.row{display:grid;grid-template-columns:1fr auto;gap:6px 10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.row.on{background:var(--sum);margin:0 -16px;padding-left:16px;padding-right:16px}
+.nm{font-weight:600;word-break:break-word;direction:ltr;text-align:right}
+.ln{font-weight:700;text-align:left;min-width:80px}
+.ctl{grid-column:1/-1;display:flex;align-items:center;gap:8px}
+.ctl .p{width:92px}
+.ctl .x{color:var(--mute)}
+.step{display:flex;align-items:center;gap:4px;margin-inline-start:auto}
+.step button{width:38px;height:38px;border:1px solid var(--leaf);background:transparent;color:var(--leaf);border-radius:5px;font-size:22px;line-height:1;cursor:pointer}
+.step input{width:56px;text-align:center}
+.disc{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sum{margin-top:16px;border-top:2px solid var(--leaf);padding-top:8px}
+.sum div{display:flex;justify-content:space-between;padding:4px 0}
+.sum .net{font-size:22px;font-weight:700;color:var(--leaf);border-top:1px solid var(--line);margin-top:4px;padding-top:8px}
+.bar{position:fixed;inset:auto 0 0 0;background:var(--leaf);color:var(--leaf-ink);padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:8px;z-index:5}
+.bar .t{flex:1;font-weight:700;font-size:18px}
+.bar .t small{display:block;font-weight:400;font-size:12px;opacity:.85}
+.bar button{font:inherit;font-weight:600;border:1px solid var(--leaf-ink);background:transparent;color:var(--leaf-ink);border-radius:5px;padding:7px 12px;cursor:pointer}
+.bar button.main{background:var(--leaf-ink);color:var(--leaf)}
+.tools{margin-top:12px;display:flex;gap:14px;flex-wrap:wrap}
+.tools button{font:inherit;font-size:14px;background:none;border:none;color:var(--mute);text-decoration:underline;cursor:pointer;padding:4px 0}
+.cn{font-weight:600}
+.row,.hd{display:grid;grid-template-columns:minmax(0,1fr) 56px 94px 58px 58px;gap:4px;align-items:center}
+.row{padding:8px 0}
+.hd{font-size:12px;color:var(--mute);padding:6px 0;text-align:center;border-bottom:1px solid var(--line)}
+.row input{padding:5px 3px;font-size:14px;text-align:center}
+.nm{font-size:13px;line-height:1.3}
+.row input.cn{font-size:13px;text-align:right}
+.step{margin:0;gap:2px}
+.step button{width:26px;height:34px;font-size:18px;padding:0}
+.step input{width:36px}
+.ln,.ld{font-size:13px;text-align:center;min-width:0}
+.ld{color:var(--leaf);font-weight:700}
+.doc th,.doc td{font-size:13px;padding:6px 3px}
+#pv{display:none;position:fixed;inset:0;z-index:20;background:var(--bg);overflow:auto;padding:env(safe-area-inset-top,0px) 12px 0}
+#pv.open{display:block}
+.pvtop{position:sticky;top:0;display:flex;gap:8px;padding:10px 0;background:var(--bg);max-width:720px;margin:0 auto}
+.pvtop button{flex:1;font:inherit;font-weight:600;border:1px solid var(--leaf);background:transparent;color:var(--leaf);border-radius:5px;padding:9px 12px;cursor:pointer}
+.pvtop button.main{background:var(--leaf);color:var(--leaf-ink)}
+.pvtop button{font-size:14px;padding:9px 4px}
+.doc{background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:18px;max-width:720px;margin:0 auto 24px}
+.doc h2{margin:0;font-size:22px}.doc .brand{color:var(--mute);font-size:14px;margin-bottom:10px}
+.doc .info{display:flex;flex-wrap:wrap;gap:4px 18px;margin-bottom:12px;font-size:14px}
+.doc table{width:100%;border-collapse:collapse}
+.doc th,.doc td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:right;font-size:14px;vertical-align:top}
+.doc th{border-bottom:2px solid var(--leaf)}
+.doc .num{text-align:left;white-space:nowrap}
+.doc .tl{display:flex;justify-content:space-between;padding:4px 0}
+.doc .tn{font-size:20px;font-weight:700;color:var(--leaf);border-top:2px solid var(--leaf);margin-top:6px;padding-top:8px}
+.doc{padding:0;border:2px solid var(--leaf);border-radius:4px;overflow:hidden}
+.doc .hdr{background:var(--leaf);color:var(--leaf-ink);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.doc .hdr h2{font-size:24px;margin:0}
+.doc .hdr .brand{margin:0;color:var(--leaf-ink);opacity:.9;direction:ltr;font-weight:600}
+.doc .info{display:grid;grid-template-columns:1.5fr 1fr .8fr;margin:0;gap:0;border-bottom:2px solid var(--leaf)}
+.doc .info span{padding:9px 10px;border-inline-start:1px solid var(--line);line-height:1.4}
+.doc .info span:first-child{border:none}
+.doc table{border-collapse:collapse;width:100%}
+.doc th,.doc td{border:1px solid var(--line);padding:8px 4px;font-size:13px;vertical-align:middle}
+.doc th:first-child,.doc td:first-child{border-right:none;text-align:center;width:28px}
+.doc th:last-child,.doc td:last-child{border-left:none}
+.doc th{background:var(--sum);border-bottom:2px solid var(--leaf);font-weight:700}
+.doc tbody tr:nth-child(even) td{background:var(--sum)}
+.doc .num{text-align:center;white-space:nowrap}
+.doc td.num:last-child{font-weight:700;color:var(--leaf)}
+.doc .tots{border-top:2px solid var(--leaf)}
+.doc .tl{padding:8px 14px;border-bottom:1px solid var(--line);margin:0}
+.doc .tn{background:var(--leaf);color:var(--leaf-ink);border:none;margin:0;padding:12px 14px;font-size:20px}
+.doc .ft{text-align:center;padding:10px;font-size:13px;color:var(--mute)}
+.doc{position:relative}
+.sheet{position:relative;overflow:hidden}
+.doc .wm,.sheet .wm{position:absolute;inset:0;overflow:hidden;color:var(--ink);opacity:.04;pointer-events:none;z-index:1}
+.doc .wmi,.sheet .wmi{position:absolute;top:-50%;left:-50%;width:200%;height:200%;transform:rotate(-25deg);font-size:22px;font-weight:700;line-height:3.2;text-align:center}
+.doc .wmi span,.sheet .wmi span{display:inline-block;margin:0 22px;white-space:nowrap}
+@media print{
+ body{background:#fff;color:#000}.bar,.tools,.step button,.noprint,.wrap,.pvtop{display:none!important}#pv{position:static!important;background:#fff!important;padding:0!important;overflow:visible!important}#pv .doc{border:1px solid #000!important;max-width:none!important;margin:0!important;padding:0!important;print-color-adjust:exact!important;-webkit-print-color-adjust:exact!important}
+ .wrap{padding:0;max-width:none}.sheet{border:none;padding:0}
+ .row.off{display:none}.row.on{background:none;margin:0;padding-left:0;padding-right:0}
+ input{border:none;background:none;color:#000;padding:0}.ctl .p,.step input{width:auto}
+ :root:root:root{--bg:#fff;--paper:#fff;--ink:#000;--leaf:#000;--leaf-ink:#fff;--mute:#444;--line:#999;--sum:#eee}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="sheet">
+  <div class="wm" aria-hidden="true"><div class="wmi"></div></div><h1>فاتورة بيع</h1>
+  <p class="sub">la tree beaute</p>
+  <div class="meta">
+   <div class="full"><label for="cust">اسم العميل</label><input id="cust" type="text" placeholder="اكتب اسم العميل"></div>
+   <div><label for="date">التاريخ</label><input id="date" type="date"></div>
+   <div><label for="no">رقم الفاتورة</label><input id="no" type="text" inputmode="numeric"></div>
+  </div>
+  <div class="list" id="list"><div class="hd"><span style="text-align:right">الصنف</span><span>السعر</span><span>الكمية</span><span>الإجمالي</span><span>بعد الخصم</span></div></div>
+  <div class="disc">
+   <div><label for="dp">نسبة الخصم %</label><input id="dp" type="number" inputmode="decimal" min="0" max="100" step="any" placeholder="0"></div>
+   <div><label for="dv">خصم بمبلغ ثابت</label><input id="dv" type="number" inputmode="decimal" min="0" step="any" placeholder="0"></div>
+  </div>
+  <div class="sum">
+   <div><span>الإجمالي قبل الخصم</span><span id="sub">0</span></div>
+   <div><span>إجمالي الخصم</span><span id="dsc">0</span></div>
+   <div class="net"><span>الصافي المطلوب</span><span id="net">0 جنيه</span></div>
+  </div>
+ </div>
+ <div class="tools">
+  <button id="resetP">استرجاع الأسعار الأصلية</button>
+ </div>
+</div>
+<div class="bar">
+ <div class="t"><small>الصافي المطلوب</small><span id="net2">0 جنيه</span></div>
+ <button id="newB">فاتورة جديدة</button>
+ <button id="prt" class="main">معاينة وطباعة</button>
+</div>
+<div id="pv" role="dialog" aria-label="معاينة الفاتورة"><div class="pvtop"><button id="pvBack">رجوع للتعديل</button><button id="pvShot">حفظ كصورة</button><button id="pvPrint" class="main">طباعة</button></div><div class="doc" id="doc"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+var ITEMS=[["la tree beaute anti-septic",49],["la tree beaute baby lotion",99],["la tree beaute emollient",170],["la tree beaute massage gel",75],["la tree beaute whiting cream",220],["la tree beaute glycerin soap",65],["la tree beaute facial wash",230],["la tree beaute acne-prone skin",99],["la tree beaute hair falling control ampoules",600],["la tree beaute anti-dandruff",200],["la tree beaute hair tonic lotion",240],["la tree beaute anti-frizz",295],["la tree beaute anti-hair loss",220],["la tree beaute anti-sunscreen gel",390],["la tree beaute body wash",180]];
+var BASE=ITEMS.length;ITEMS.push(["",0],["",0],["",0]);
+var $=function(i){return document.getElementById(i)};
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+var prices=ITEMS.map(function(x){return x[1]});
+try{var sp=JSON.parse(ls("prices")||"null");if(sp&&sp.length>=BASE)for(var k=0;k<BASE;k++)if(typeof sp[k]==="number"&&sp[k]>0)prices[k]=sp[k]}catch(e){}
+var qty=ITEMS.map(function(){return 0});
+function fmt(n){return (Math.round(n*100)/100).toLocaleString("en-US",{maximumFractionDigits:2})}
+function num(v){var n=parseFloat(v);return isFinite(n)&&n>0?n:0}
+var list=$("list");
+ITEMS.forEach(function(it,i){
+ var r=document.createElement("div");r.className="row off";r.id="r"+i;
+ r.innerHTML=(i>=BASE?'<input class="cn" id="n'+i+'" type="text" placeholder="صنف آخر: اكتب الاسم" aria-label="اسم الصنف">':'<div class="nm">'+it[0].replace("la tree beaute ","")+'</div>')+
+ '<input class="p" id="p'+i+'" type="number" inputmode="decimal" min="0" step="any" aria-label="السعر">'+
+ '<div class="step"><button type="button" data-d="-1" data-i="'+i+'" aria-label="إنقاص">−</button><input id="q'+i+'" type="number" inputmode="numeric" min="0" step="1" placeholder="0" aria-label="الكمية"><button type="button" data-d="1" data-i="'+i+'" aria-label="زيادة">+</button></div><div class="ln" id="l'+i+'">0</div><div class="ld" id="d'+i+'">0</div>';
+ list.appendChild(r);
+});
+function calc(){var tt=[];
+ var sub=0;
+ ITEMS.forEach(function(_,i){
+  prices[i]=num($("p"+i).value);qty[i]=Math.floor(num($("q"+i).value));
+  var t=prices[i]*qty[i];sub+=t;
+  $("l"+i).textContent=fmt(t);tt[i]=t;
+  $("r"+i).className="row "+(qty[i]>0?"on":"off");
+ });
+ var d=Math.min(sub,sub*Math.min(num($("dp").value),100)/100+num($("dv").value));
+ $("sub").textContent=fmt(sub);$("dsc").textContent=fmt(d);
+ var f=sub>0?(sub-d)/sub:1;tt.forEach(function(t,i){$("d"+i).textContent=fmt(t*f)});
+ var n=fmt(sub-d)+" جنيه";$("net").textContent=n;$("net2").textContent=n;
+ ls("prices",JSON.stringify(prices));
+}
+function fillPrices(arr){arr.forEach(function(p,i){$("p"+i).value=p?p:""})}
+fillPrices(prices);
+list.addEventListener("input",calc);
+list.addEventListener("click",function(e){
+ var b=e.target.closest("button[data-i]");if(!b)return;
+ var q=$("q"+b.dataset.i);q.value=Math.max(0,(parseInt(q.value)||0)+parseInt(b.dataset.d));calc();
+});
+["dp","dv"].forEach(function(id){$(id).addEventListener("input",calc)});
+function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+var cnt=parseInt(ls("invno"))||1;
+function fresh(){
+ ITEMS.forEach(function(_,i){$("q"+i).value="";if(i>=BASE){$("n"+i).value="";$("p"+i).value=""}});
+ $("dp").value="";$("dv").value="";$("cust").value="";$("date").value=today();$("no").value=cnt;calc();
+}
+$("newB").onclick=function(){if(!confirm("تبدأ فاتورة جديدة؟ الكميات والخصم هيتمسحوا."))return;cnt=(parseInt($("no").value)||cnt)+1;ls("invno",String(cnt));fresh();window.scrollTo(0,0)};
+$("resetP").onclick=function(){if(!confirm("ترجع كل الأسعار للأسعار الأصلية؟"))return;fillPrices(ITEMS.slice(0,BASE).map(function(x){return x[1]}));calc()};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+$("prt").onclick=function(){
+ var rows="",n=0,sub=0;
+ ITEMS.forEach(function(it,i){
+  var q=Math.floor(num($("q"+i).value)),p=num($("p"+i).value);
+  if(q<=0)return;
+  var name=i>=BASE?($("n"+i).value||"صنف آخر"):it[0].replace("la tree beaute ","");
+  n++;sub+=p*q;
+  rows+='<tr><td>'+n+'</td><td dir="auto">'+esc(name)+'</td><td class="num">'+fmt(p)+'</td><td class="num">'+q+'</td><td class="num">'+fmt(p*q)+'</td><td class="num">@@'+(p*q)+'@@</td></tr>';
+ });
+ if(!n){alert("اختار كمية لصنف واحد على الأقل قبل المعاينة.");return}
+ var pc=Math.min(num($("dp").value),100),fx=num($("dv").value);
+ var d=Math.min(sub,sub*pc/100+fx);
+ var f=sub>0?(sub-d)/sub:1;rows=rows.replace(/@@([\d.]+)@@/g,function(_,v){return fmt(parseFloat(v)*f)});
+ var dt=($("date").value||"").split("-").reverse().join("/");
+ var h='<div class="hdr"><h2>فاتورة بيع</h2><div class="brand">la tree beaute</div></div><div class="info">'+
+  '<span>العميل: '+esc($("cust").value||"-")+'</span><span>التاريخ: '+esc(dt||"-")+'</span><span>رقم الفاتورة: '+esc($("no").value||"-")+'</span></div>'+
+  '<table><thead><tr><th>م</th><th>الصنف</th><th class="num">السعر</th><th class="num">الكمية</th><th class="num">الإجمالي</th><th class="num">بعد الخصم</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+  '<div class="tots"><div class="tl"><span>الإجمالي قبل الخصم</span><span>'+fmt(sub)+'</span></div>';
+ if(d>0)h+='<div class="tl"><span>الخصم'+(pc>0?' ('+fmt(pc)+'%'+(fx>0?' + '+fmt(fx):'')+')':'')+'</span><span>- '+fmt(d)+'</span></div>';
+ h+='<div class="tl tn"><span>الصافي المطلوب</span><span>'+fmt(sub-d)+' جنيه</span></div></div><div class="ft">شكرًا لتعاملكم معنا</div><div class="wm" aria-hidden="true"><div class="wmi">'+new Array(301).join("<span>مصطفي علاء</span>")+'</div></div>';
+ $("doc").innerHTML=h;$("pv").classList.add("open");$("pv").scrollTop=0;
+};
+var dl=null;
+function saveBlob(name,blob){
+ if(dl)return dl.save({filename:name,data:blob});
+ return new Promise(function(res){var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();res()},500)});
+}
+$("pvShot").hidden=false;
+try{claude.use("downloads").then(function(m){dl=m}).catch(function(){})}catch(e){}
+$("pvShot").onclick=function(){
+ var b=$("pvShot"),old=b.textContent,el=$("doc");
+ if(!window.html2canvas){alert("تعذر تجهيز الصورة. جرّب تاني.");return}
+ b.disabled=true;b.textContent="جاري التجهيز...";$("pv").scrollTop=0;
+ html2canvas(el,{scale:2,backgroundColor:getComputedStyle(el).backgroundColor,scrollX:0,scrollY:0}).then(function(c){
+  return new Promise(function(res){c.toBlob(res,"image/png")});
+ }).then(function(blob){
+  if(!blob)throw new Error("empty");
+  return saveBlob("invoice-"+(($("no").value||"1").replace(/[^0-9A-Za-z_-]/g,"")||"1")+".png",blob);
+ }).catch(function(e){if(!e||e.code!=="declined")alert("تعذر حفظ الصورة.")}).then(function(){b.disabled=false;b.textContent=old});
+};
+$("pvBack").onclick=function(){$("pv").classList.remove("open")};
+$("pvPrint").onclick=function(){window.print()};
+document.querySelector(".sheet .wmi").innerHTML=new Array(601).join("<span>مصطفي علاء</span>");
+fresh();
+</script>
+</body>
+</html>
